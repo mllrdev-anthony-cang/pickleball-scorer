@@ -13,6 +13,8 @@ let state = initialState();
 const elements = {
   teamAName: document.getElementById("teamAName"),
   teamBName: document.getElementById("teamBName"),
+  teamAPanel: document.querySelector(".team-a"),
+  teamBPanel: document.querySelector(".team-b"),
   teamAScore: document.getElementById("teamAScore"),
   teamBScore: document.getElementById("teamBScore"),
   servingTeamLabel: document.getElementById("servingTeamLabel"),
@@ -214,6 +216,10 @@ function buildFaultVoiceLine() {
 }
 
 function handlePoint(team) {
+  if (team !== state.servingTeam) {
+    return;
+  }
+
   snapshot();
   state.score[team] += 1;
   state.servingTeam = team;
@@ -315,6 +321,15 @@ function render() {
   elements.courtSideLabel.textContent = getCourtSide();
   setModeButtonState();
   setVoiceButtonState();
+
+  elements.scoreButtons.forEach((button) => {
+    const isServingTeam = button.dataset.team === state.servingTeam;
+    button.disabled = !isServingTeam || Boolean(winner);
+    button.textContent = isServingTeam ? "+ Point" : "Receiving";
+  });
+
+  elements.teamAPanel.classList.toggle("is-serving", state.servingTeam === "A" && !winner);
+  elements.teamBPanel.classList.toggle("is-serving", state.servingTeam === "B" && !winner);
 
   if (winner) {
     elements.calloutText.textContent = `${getTeamName(winner)} wins ${state.score.A}-${state.score.B}.`;
