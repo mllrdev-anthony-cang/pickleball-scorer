@@ -1,6 +1,10 @@
 # Pickleball Scorer
 
+[![Deploy GitHub Pages](https://github.com/mllrdev-anthony-cang/pickleball-scorer/actions/workflows/pages.yml/badge.svg?branch=master)](https://github.com/mllrdev-anthony-cang/pickleball-scorer/actions/workflows/pages.yml)
+
 A lightweight pickleball scoring app built with plain HTML, CSS, and JavaScript.
+
+Live site: [mllrdev-anthony-cang.github.io/pickleball-scorer](https://mllrdev-anthony-cang.github.io/pickleball-scorer/)
 
 ## Features
 
