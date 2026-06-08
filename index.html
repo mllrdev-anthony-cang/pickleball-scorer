@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pickleball Scorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Fraunces:opsz,wght@9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="hero-card">
+      <p class="eyebrow">Pickleball</p>
+      <h1>Keep score without killing the vibe.</h1>
+      <p class="hero-copy">
+        Track points, serving side, server number, and game flow for singles or doubles in one fast view.
+      </p>
+
+      <div class="mode-toggle" role="group" aria-label="Match format">
+        <button class="mode-button is-active" data-mode="doubles" type="button">Doubles</button>
+        <button class="mode-button" data-mode="singles" type="button">Singles</button>
+      </div>
+    </section>
+
+    <section class="scoreboard-card" aria-labelledby="scoreboard-title">
+      <div class="scoreboard-header">
+        <div>
+          <p class="section-label">Live Match</p>
+          <h2 id="scoreboard-title">Scoreboard</h2>
+        </div>
+        <button id="resetButton" class="ghost-button" type="button">Reset Match</button>
+      </div>
+
+      <div class="teams-grid">
+        <article class="team-panel team-a">
+          <label class="name-label" for="teamAName">Team A Name</label>
+          <div class="name-input-wrap">
+            <input id="teamAName" class="name-input" type="text" maxlength="24" value="Team A" placeholder="Enter team name">
+          </div>
+          <p class="name-hint">Tap to rename this team</p>
+          <div class="score-value" id="teamAScore" aria-live="polite">0</div>
+          <button class="score-button" data-team="A" type="button">+ Point</button>
+        </article>
+
+        <article class="team-panel team-b">
+          <label class="name-label" for="teamBName">Team B Name</label>
+          <div class="name-input-wrap">
+            <input id="teamBName" class="name-input" type="text" maxlength="24" value="Team B" placeholder="Enter team name">
+          </div>
+          <p class="name-hint">Tap to rename this team</p>
+          <div class="score-value" id="teamBScore" aria-live="polite">0</div>
+          <button class="score-button" data-team="B" type="button">+ Point</button>
+        </article>
+      </div>
+
+      <div class="status-grid">
+        <article class="status-panel">
+          <p class="section-label">Serving Team</p>
+          <strong id="servingTeamLabel">Team A</strong>
+        </article>
+        <article class="status-panel">
+          <p class="section-label">Server</p>
+          <strong id="serverNumberLabel">1st Server</strong>
+        </article>
+        <article class="status-panel">
+          <p class="section-label">Court Side</p>
+          <strong id="courtSideLabel">Even</strong>
+        </article>
+      </div>
+
+      <div class="action-row">
+        <button id="faultButton" class="secondary-button" type="button">Fault / Side Out</button>
+        <button id="undoButton" class="secondary-button" type="button">Undo</button>
+        <button id="voiceButton" class="secondary-button" type="button" aria-pressed="false">Voice Off</button>
+      </div>
+
+      <article class="announcement-panel">
+        <p class="section-label">Callout</p>
+        <p id="calloutText" class="callout-text">Team A serving, 0-0-2.</p>
+      </article>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
