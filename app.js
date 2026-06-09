@@ -19,8 +19,10 @@ const elements = {
   teamAScore: document.getElementById("teamAScore"),
   teamBScore: document.getElementById("teamBScore"),
   servingTeamLabel: document.getElementById("servingTeamLabel"),
-  serverNumberLabel: document.getElementById("serverNumberLabel"),
-  courtSideLabel: document.getElementById("courtSideLabel"),
+  teamAServerLabel: document.getElementById("teamAServerLabel"),
+  teamACourtLabel: document.getElementById("teamACourtLabel"),
+  teamBServerLabel: document.getElementById("teamBServerLabel"),
+  teamBCourtLabel: document.getElementById("teamBCourtLabel"),
   calloutText: document.getElementById("calloutText"),
   resetButton: document.getElementById("resetButton"),
   faultButton: document.getElementById("faultButton"),
@@ -330,10 +332,18 @@ function render() {
   elements.teamAScore.textContent = state.score.A;
   elements.teamBScore.textContent = state.score.B;
   elements.servingTeamLabel.textContent = servingName;
-  elements.serverNumberLabel.textContent = getServerDisplay();
-  elements.courtSideLabel.textContent = getCourtSide();
   setModeButtonState();
   setVoiceButtonState();
+
+  const serverDisplay = getServerDisplay();
+  const courtDisplay = getCourtSide();
+  const teamAServing = state.servingTeam === "A";
+  const teamBServing = state.servingTeam === "B";
+
+  elements.teamAServerLabel.textContent = teamAServing ? serverDisplay : "Receiving";
+  elements.teamACourtLabel.textContent = teamAServing ? courtDisplay : "Waiting";
+  elements.teamBServerLabel.textContent = teamBServing ? serverDisplay : "Receiving";
+  elements.teamBCourtLabel.textContent = teamBServing ? courtDisplay : "Waiting";
 
   elements.scoreButtons.forEach((button) => {
     const isServingTeam = button.dataset.team === state.servingTeam;

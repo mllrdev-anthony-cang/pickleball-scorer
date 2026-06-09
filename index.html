@@ -38,14 +38,6 @@
           <p class="section-label">Serving Team</p>
           <strong id="servingTeamLabel">Team A</strong>
         </article>
-        <article class="status-panel">
-          <p class="section-label">Server</p>
-          <strong id="serverNumberLabel">1st Server</strong>
-        </article>
-        <article class="status-panel">
-          <p class="section-label">Court Side</p>
-          <strong id="courtSideLabel">Even</strong>
-        </article>
       </div>
 
       <article class="announcement-panel">
@@ -63,7 +55,19 @@
             <input id="teamAName" class="name-input" type="text" maxlength="24" value="Team A" placeholder="Enter team name">
           </div>
           <p class="name-hint">Tap to rename this team</p>
-          <div class="score-value" id="teamAScore" aria-live="polite">0</div>
+          <div class="team-score-row">
+            <div class="score-value" id="teamAScore" aria-live="polite">0</div>
+            <div class="team-meta-panel">
+              <div class="team-meta-item">
+                <span class="team-meta-label">Server</span>
+                <strong id="teamAServerLabel">1st Server</strong>
+              </div>
+              <div class="team-meta-item">
+                <span class="team-meta-label">Court</span>
+                <strong id="teamACourtLabel">Even</strong>
+              </div>
+            </div>
+          </div>
           <button class="score-button" data-team="A" type="button">+ Point</button>
         </article>
 
@@ -76,7 +80,19 @@
             <input id="teamBName" class="name-input" type="text" maxlength="24" value="Team B" placeholder="Enter team name">
           </div>
           <p class="name-hint">Tap to rename this team</p>
-          <div class="score-value" id="teamBScore" aria-live="polite">0</div>
+          <div class="team-score-row">
+            <div class="score-value" id="teamBScore" aria-live="polite">0</div>
+            <div class="team-meta-panel">
+              <div class="team-meta-item">
+                <span class="team-meta-label">Server</span>
+                <strong id="teamBServerLabel">Receiving</strong>
+              </div>
+              <div class="team-meta-item">
+                <span class="team-meta-label">Court</span>
+                <strong id="teamBCourtLabel">Waiting</strong>
+              </div>
+            </div>
+          </div>
           <button class="score-button" data-team="B" type="button">+ Point</button>
         </article>
       </div>
