@@ -33,6 +33,26 @@
         <button id="resetButton" class="ghost-button" type="button">Reset Match</button>
       </div>
 
+      <div class="status-grid">
+        <article class="status-panel">
+          <p class="section-label">Serving Team</p>
+          <strong id="servingTeamLabel">Team A</strong>
+        </article>
+        <article class="status-panel">
+          <p class="section-label">Server</p>
+          <strong id="serverNumberLabel">1st Server</strong>
+        </article>
+        <article class="status-panel">
+          <p class="section-label">Court Side</p>
+          <strong id="courtSideLabel">Even</strong>
+        </article>
+      </div>
+
+      <article class="announcement-panel">
+        <p class="section-label">Callout</p>
+        <p id="calloutText" class="callout-text">Team A serving, 0-0-2.</p>
+      </article>
+
       <div class="teams-grid">
         <article class="team-panel team-a">
           <div class="team-panel-top">
@@ -61,31 +81,12 @@
         </article>
       </div>
 
-      <div class="status-grid">
-        <article class="status-panel">
-          <p class="section-label">Serving Team</p>
-          <strong id="servingTeamLabel">Team A</strong>
-        </article>
-        <article class="status-panel">
-          <p class="section-label">Server</p>
-          <strong id="serverNumberLabel">1st Server</strong>
-        </article>
-        <article class="status-panel">
-          <p class="section-label">Court Side</p>
-          <strong id="courtSideLabel">Even</strong>
-        </article>
-      </div>
-
       <div class="action-row">
         <button id="faultButton" class="secondary-button" type="button">Fault / Side Out</button>
+        <button id="switchTeamsButton" class="secondary-button" type="button">Switch Team Cards</button>
         <button id="undoButton" class="secondary-button" type="button">Undo</button>
         <button id="voiceButton" class="secondary-button" type="button" aria-pressed="false">Voice Off</button>
       </div>
-
-      <article class="announcement-panel">
-        <p class="section-label">Callout</p>
-        <p id="calloutText" class="callout-text">Team A serving, 0-0-2.</p>
-      </article>
     </section>
   </main>
 

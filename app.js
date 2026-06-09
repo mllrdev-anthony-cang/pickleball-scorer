@@ -4,6 +4,7 @@ const initialState = () => ({
   servingTeam: "A",
   firstServiceDone: true,
   serverNumber: 2,
+  teamCardsSwapped: false,
   voiceEnabled: false,
   history: []
 });
@@ -23,6 +24,7 @@ const elements = {
   calloutText: document.getElementById("calloutText"),
   resetButton: document.getElementById("resetButton"),
   faultButton: document.getElementById("faultButton"),
+  switchTeamsButton: document.getElementById("switchTeamsButton"),
   undoButton: document.getElementById("undoButton"),
   voiceButton: document.getElementById("voiceButton"),
   modeButtons: [...document.querySelectorAll(".mode-button")],
@@ -36,6 +38,7 @@ function snapshot() {
     servingTeam: state.servingTeam,
     firstServiceDone: state.firstServiceDone,
     serverNumber: state.serverNumber,
+    teamCardsSwapped: state.teamCardsSwapped,
     voiceEnabled: state.voiceEnabled
   }));
 }
@@ -304,6 +307,13 @@ function handleVoiceToggle() {
   speakLine(elements.calloutText.textContent);
 }
 
+function handleSwitchTeamCards() {
+  snapshot();
+  state.teamCardsSwapped = !state.teamCardsSwapped;
+  render();
+  speakLine("Team cards switched.");
+}
+
 function setModeButtonState() {
   elements.modeButtons.forEach((button) => {
     button.classList.toggle("is-active", button.dataset.mode === state.mode);
@@ -313,6 +323,9 @@ function setModeButtonState() {
 function render() {
   const winner = getWinningTeam();
   const servingName = getTeamName(state.servingTeam);
+
+  elements.teamAPanel.style.order = state.teamCardsSwapped ? "2" : "1";
+  elements.teamBPanel.style.order = state.teamCardsSwapped ? "1" : "2";
 
   elements.teamAScore.textContent = state.score.A;
   elements.teamBScore.textContent = state.score.B;
@@ -348,6 +361,7 @@ elements.modeButtons.forEach((button) => {
 });
 
 elements.faultButton.addEventListener("click", handleFault);
+elements.switchTeamsButton.addEventListener("click", handleSwitchTeamCards);
 elements.undoButton.addEventListener("click", restoreSnapshot);
 elements.resetButton.addEventListener("click", handleReset);
 elements.voiceButton.addEventListener("click", handleVoiceToggle);
