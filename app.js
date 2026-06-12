@@ -6,7 +6,8 @@ const initialState = () => ({
   serverNumber: 2,
   teamCardsSwapped: false,
   voiceEnabled: false,
-  history: []
+  history: [],
+  servingScore: 0
 });
 
 let state = initialState();
@@ -87,7 +88,7 @@ function getServerCalloutValue() {
 }
 
 function getCourtSide() {
-  const servingScore = state.score[state.servingTeam];
+  const servingScore = state.servingScore;
   return servingScore % 2 === 0 ? "Even" : "Odd";
 }
 
@@ -228,7 +229,7 @@ function handlePoint(team) {
   snapshot();
   state.score[team] += 1;
   state.servingTeam = team;
-
+  state.servingScore += 1;
   if (state.mode === "singles") {
     state.serverNumber = 1;
   }
@@ -259,9 +260,11 @@ function handleFault() {
 
   if (state.serverNumber === 1) {
     state.serverNumber = 2;
+    state.servingScore += 1;
   } else {
     state.serverNumber = 1;
     state.servingTeam = otherTeam(state.servingTeam);
+    state.servingScore = 0;
   }
 
   render();
