@@ -17,6 +17,8 @@ const elements = {
   teamBName: document.getElementById("teamBName"),
   teamAPanel: document.querySelector(".team-a"),
   teamBPanel: document.querySelector(".team-b"),
+  sharedActionPanel: document.querySelector(".shared-action-panel"),
+  pointButton: document.getElementById("pointButton"),
   teamAScore: document.getElementById("teamAScore"),
   teamBScore: document.getElementById("teamBScore"),
   servingTeamLabel: document.getElementById("servingTeamLabel"),
@@ -30,8 +32,7 @@ const elements = {
   switchTeamsButton: document.getElementById("switchTeamsButton"),
   undoButton: document.getElementById("undoButton"),
   voiceButton: document.getElementById("voiceButton"),
-  modeButtons: [...document.querySelectorAll(".mode-button")],
-  scoreButtons: [...document.querySelectorAll(".score-button")]
+  modeButtons: [...document.querySelectorAll(".mode-button")]
 };
 
 function snapshot() {
@@ -81,10 +82,10 @@ function getServerDisplay() {
 
 function getServerCalloutValue() {
   if (state.mode === "singles") {
-    return `${state.score.A}-${state.score.B}`;
+    return `${state.score.A} ${state.score.B}`;
   }
 
-  return `${state.score.A}-${state.score.B}-${state.serverNumber}`;
+  return `${state.score.A} ${state.score.B} ${state.serverNumber}`;
 }
 
 function getCourtSide() {
@@ -181,8 +182,8 @@ function speakLine(text) {
     utterance.lang = preferredVoice.lang;
   }
 
-  utterance.rate = 1.08;
-  utterance.pitch = 1.22;
+  utterance.rate = 1;
+  utterance.pitch = 1;
   utterance.volume = 1;
   window.speechSynthesis.speak(utterance);
 }
@@ -195,8 +196,8 @@ function buildActionVoiceLine(team, winner) {
   const scoringName = getTeamName(team);
   const servingName = getTeamName(state.servingTeam);
   const scoreLine = state.mode === "singles"
-    ? `${state.score.A}-${state.score.B}`
-    : `${state.score.A}-${state.score.B}-${state.serverNumber}`;
+    ? `${state.score.A} ${state.score.B}`
+    : `${state.score.A} ${state.score.B} ${state.serverNumber}`;
   const opponent = otherTeam(team);
   const scoringScore = state.score[team];
   const opponentScore = state.score[opponent];
@@ -215,8 +216,8 @@ function buildFaultVoiceLine() {
     ? "Single server"
     : state.serverNumber === 1 ? "First server" : "Second server";
   const scoreLine = state.mode === "singles"
-    ? `${state.score.A}-${state.score.B}`
-    : `${state.score.A}-${state.score.B}-${state.serverNumber}`;
+    ? `${state.score.A} ${state.score.B}`
+    : `${state.score.A} ${state.score.B} ${state.serverNumber}`;
 
   return `Side out. Service goes to ${servingName}. ${serverLine}. The score, ${scoreLine}.`;
 }
@@ -319,6 +320,30 @@ function handleSwitchTeamCards() {
   speakLine("Team cards switched.");
 }
 
+function addSharedButtonFeedback(button) {
+  let clearPressedTimer = null;
+
+  function clearPressedState() {
+    button.classList.remove("is-pressed");
+  }
+
+  function setPressedState() {
+    button.classList.add("is-pressed");
+
+    if (clearPressedTimer) {
+      window.clearTimeout(clearPressedTimer);
+    }
+
+    clearPressedTimer = window.setTimeout(clearPressedState, 160);
+  }
+
+  button.addEventListener("pointerdown", setPressedState);
+  button.addEventListener("pointerup", clearPressedState);
+  button.addEventListener("pointercancel", clearPressedState);
+  button.addEventListener("pointerleave", clearPressedState);
+  button.addEventListener("click", setPressedState);
+}
+
 function setModeButtonState() {
   elements.modeButtons.forEach((button) => {
     button.classList.toggle("is-active", button.dataset.mode === state.mode);
@@ -329,8 +354,9 @@ function render() {
   const winner = getWinningTeam();
   const servingName = getTeamName(state.servingTeam);
 
-  elements.teamAPanel.style.order = state.teamCardsSwapped ? "2" : "1";
-  elements.teamBPanel.style.order = state.teamCardsSwapped ? "1" : "2";
+  elements.teamAPanel.style.order = state.teamCardsSwapped ? "3" : "1";
+  elements.sharedActionPanel.style.order = "2";
+  elements.teamBPanel.style.order = state.teamCardsSwapped ? "1" : "3";
 
   elements.teamAScore.textContent = state.score.A;
   elements.teamBScore.textContent = state.score.B;
@@ -348,11 +374,10 @@ function render() {
   elements.teamBServerLabel.textContent = teamBServing ? serverDisplay : "Receiving";
   elements.teamBCourtLabel.textContent = teamBServing ? courtDisplay : "Waiting";
 
-  elements.scoreButtons.forEach((button) => {
-    const isServingTeam = button.dataset.team === state.servingTeam;
-    button.disabled = !isServingTeam || Boolean(winner);
-    button.textContent = isServingTeam ? "+ Point" : "Receiving";
-  });
+  elements.pointButton.disabled = Boolean(winner);
+  elements.pointButton.textContent = winner ? "Game Over" : `+ Point for ${servingName}`;
+  elements.pointButton.classList.toggle("is-team-a", state.servingTeam === "A" && !winner);
+  elements.pointButton.classList.toggle("is-team-b", state.servingTeam === "B" && !winner);
 
   elements.teamAPanel.classList.toggle("is-serving", state.servingTeam === "A" && !winner);
   elements.teamBPanel.classList.toggle("is-serving", state.servingTeam === "B" && !winner);
@@ -365,9 +390,7 @@ function render() {
   elements.calloutText.textContent = `${servingName} serving, ${getServerCalloutValue()}.`;
 }
 
-elements.scoreButtons.forEach((button) => {
-  button.addEventListener("click", () => handlePoint(button.dataset.team));
-});
+elements.pointButton.addEventListener("click", () => handlePoint(state.servingTeam));
 
 elements.modeButtons.forEach((button) => {
   button.addEventListener("click", () => handleModeChange(button.dataset.mode));
@@ -382,6 +405,8 @@ elements.teamAName.addEventListener("input", render);
 elements.teamBName.addEventListener("input", render);
 elements.teamAName.addEventListener("focus", (event) => event.target.select());
 elements.teamBName.addEventListener("focus", (event) => event.target.select());
+
+[...elements.sharedActionPanel.querySelectorAll("button")].forEach(addSharedButtonFeedback);
 
 if ("speechSynthesis" in window) {
   window.speechSynthesis.onvoiceschanged = () => {

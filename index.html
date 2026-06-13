@@ -68,8 +68,15 @@
               </div>
             </div>
           </div>
-          <button class="score-button" data-team="A" type="button">+ Point</button>
         </article>
+
+        <div class="shared-action-panel">
+          <button id="pointButton" class="score-button shared-point-button" type="button">+ Point</button>
+          <button id="faultButton" class="secondary-button fault-button" type="button">Fault / Side Out</button>
+          <button id="undoButton" class="secondary-button" type="button">Undo</button>
+          <button id="switchTeamsButton" class="secondary-button" type="button">Switch Team Cards</button>          
+          <button id="voiceButton" class="secondary-button" type="button" aria-pressed="false">Voice Off</button>
+        </div>
 
         <article class="team-panel team-b">
           <div class="team-panel-top">
@@ -93,15 +100,7 @@
               </div>
             </div>
           </div>
-          <button class="score-button" data-team="B" type="button">+ Point</button>
         </article>
-      </div>
-
-      <div class="action-row">
-        <button id="faultButton" class="secondary-button" type="button">Fault / Side Out</button>
-        <button id="switchTeamsButton" class="secondary-button" type="button">Switch Team Cards</button>
-        <button id="undoButton" class="secondary-button" type="button">Undo</button>
-        <button id="voiceButton" class="secondary-button" type="button" aria-pressed="false">Voice Off</button>
       </div>
     </section>
   </main>
