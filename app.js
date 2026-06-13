@@ -210,7 +210,7 @@ function buildActionVoiceLine(team, winner) {
     return `Point to ${scoringName}. Game point here. ${servingName} to serve, ${scoreLine}.`;
   }
 
-  return `Point to ${scoringName}. ${servingName} to serve, ${scoreLine}.`;
+  return `Point to ${scoringName}. ${scoreLine}, ${servingName} to serve.`;
 }
 
 function buildFaultVoiceLine() {
@@ -222,7 +222,9 @@ function buildFaultVoiceLine() {
     ? `${state.score.A} ${state.score.B}`
     : `${state.score.A} ${state.score.B} ${state.serverNumber}`;
 
-  return `Side out. Service goes to ${servingName}. ${serverLine}. The score, ${scoreLine}.`;
+  const isfault = state.mode === "doubles" && state.serverNumber === 2 ? "Fault" : "Side out"
+
+  return `${isfault}. Service goes to ${servingName}. ${serverLine}. The score, ${scoreLine}.`;
 }
 
 function handlePoint(team) {
