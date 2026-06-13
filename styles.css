@@ -161,7 +161,7 @@ h2 {
 }
 
 .teams-grid {
-  grid-template-columns: minmax(0, 1fr) minmax(220px, 260px) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(180px, 220px);
   align-items: start;
 }
 
@@ -343,6 +343,9 @@ h2 {
   border-radius: 22px;
   background: rgba(255, 255, 255, 0.5);
   align-self: center;
+  width: 100%;
+  max-width: 220px;
+  justify-self: end;
 }
 
 .shared-action-panel button {

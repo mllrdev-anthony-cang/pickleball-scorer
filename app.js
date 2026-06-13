@@ -354,9 +354,9 @@ function render() {
   const winner = getWinningTeam();
   const servingName = getTeamName(state.servingTeam);
 
-  elements.teamAPanel.style.order = state.teamCardsSwapped ? "3" : "1";
-  elements.sharedActionPanel.style.order = "2";
-  elements.teamBPanel.style.order = state.teamCardsSwapped ? "1" : "3";
+  elements.teamAPanel.style.order = state.teamCardsSwapped ? "2" : "1";
+  elements.teamBPanel.style.order = state.teamCardsSwapped ? "1" : "2";
+  elements.sharedActionPanel.style.order = "3";
 
   elements.teamAScore.textContent = state.score.A;
   elements.teamBScore.textContent = state.score.B;
