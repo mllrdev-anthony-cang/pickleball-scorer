@@ -122,6 +122,8 @@ function pickPreferredVoice() {
     return null;
   }
 
+  const englishVoices = voices.filter((voice) => voice.lang.toLowerCase().startsWith("en"));
+
   const preferredNames = [
     "Samantha",
     "Aria",
@@ -147,7 +149,7 @@ function pickPreferredVoice() {
     "karen"
   ];
 
-  const byPreferredName = voices.find((voice) =>
+  const byPreferredName = englishVoices.find((voice) =>
     preferredNames.some((name) => voice.name.toLowerCase().includes(name.toLowerCase()))
   );
 
@@ -155,7 +157,7 @@ function pickPreferredVoice() {
     return byPreferredName;
   }
 
-  const byHint = voices.find((voice) => {
+  const byHint = englishVoices.find((voice) => {
     const haystack = `${voice.name} ${voice.voiceURI}`.toLowerCase();
     return femaleHints.some((hint) => haystack.includes(hint));
   });
@@ -164,8 +166,7 @@ function pickPreferredVoice() {
     return byHint;
   }
 
-  const englishVoice = voices.find((voice) => voice.lang.toLowerCase().startsWith("en"));
-  return englishVoice || voices[0];
+  return englishVoices[0] || voices[0];
 }
 
 function speakLine(text) {
@@ -177,9 +178,11 @@ function speakLine(text) {
   const utterance = new SpeechSynthesisUtterance(text);
   const preferredVoice = pickPreferredVoice();
 
+  utterance.lang = "en-US";
+
   if (preferredVoice) {
     utterance.voice = preferredVoice;
-    utterance.lang = preferredVoice.lang;
+    utterance.lang = preferredVoice.lang.toLowerCase().startsWith("en") ? preferredVoice.lang : "en-US";
   }
 
   utterance.rate = 1;
